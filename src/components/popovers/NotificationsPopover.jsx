@@ -1,65 +1,82 @@
-import React from 'react';
-import { Bell, CheckCircle, AlertTriangle, Info, X } from 'lucide-react';
+import React, { useState } from 'react';
+import { Bell, Check, X, ShieldAlert, Calendar, FileText, CheckCircle2 } from 'lucide-react';
 
 export default function NotificationsPopover({ isOpen, onClose }) {
   if (!isOpen) return null;
 
-  const notifications = [
+  const [notifications, setNotifications] = useState([
     {
       id: 1,
-      type: 'warning',
-      title: 'Government ID Upload Past Due',
-      description: 'Valid Photo ID for David Salomon was due on Jun 22.',
-      time: '21 days ago'
+      type: 'license',
+      title: 'RN License Expiration Warning',
+      desc: 'Mary Grace Acabo US RN License expires in 20 days.',
+      time: '10m ago',
+      read: false,
+      icon: ShieldAlert,
+      color: '#dc2626',
+      bg: '#fef2f2'
     },
     {
       id: 2,
-      type: 'info',
-      title: 'Company Announcement',
-      description: 'Cendz Deluta posted: Knowledge Pays Challenge!',
-      time: '4 days ago'
+      type: 'nsd',
+      title: 'Paid NSD Request Approved',
+      desc: 'Your Paid NSD request for Aug 12 was approved by Yvonne Rickert.',
+      time: '2h ago',
+      read: false,
+      icon: Calendar,
+      color: '#0284c7',
+      bg: '#f0f9ff'
     },
     {
       id: 3,
-      type: 'success',
-      title: 'Training Completed',
-      description: 'CASM Harassment Awareness passed successfully.',
-      time: 'Jun 30, 2026'
+      type: 'document',
+      title: 'Contract Ready for Signature',
+      desc: 'Contractor Engagement Agreement 2026 requires your digital signature.',
+      time: '1d ago',
+      read: true,
+      icon: FileText,
+      color: '#059669',
+      bg: '#ecfdf5'
     }
-  ];
+  ]);
+
+  const markAllAsRead = () => {
+    setNotifications(notifications.map(n => ({ ...n, read: true })));
+  };
 
   return (
-    <div className="popover-overlay" onClick={onClose}>
-      <div className="notifications-popover" onClick={(e) => e.stopPropagation()}>
+    <div className="popover-backdrop" onClick={onClose}>
+      <div className="notifications-popover-card" onClick={(e) => e.stopPropagation()}>
         <div className="popover-header">
-          <div className="title-box">
+          <div className="popover-title">
             <Bell size={18} className="icon-blue" />
-            <h3>Notifications</h3>
+            <span>Notifications</span>
+            <span className="popover-badge">{notifications.filter(n => !n.read).length}</span>
           </div>
-          <button className="icon-btn-sm" onClick={onClose}><X size={16} /></button>
+          <button className="btn-text-sm" onClick={markAllAsRead}>Mark all read</button>
         </div>
 
-        <div className="notifications-list">
-          {notifications.map((n) => (
-            <div key={n.id} className="notification-item">
-              <div className="n-icon">
-                {n.type === 'warning' && <AlertTriangle size={18} className="icon-red" />}
-                {n.type === 'info' && <Info size={18} className="icon-blue" />}
-                {n.type === 'success' && <CheckCircle size={18} className="icon-green" />}
+        <div className="popover-list">
+          {notifications.map((item) => {
+            const IconComp = item.icon;
+            return (
+              <div key={item.id} className={`popover-item ${item.read ? 'read' : 'unread'}`}>
+                <div className="popover-item-icon" style={{ background: item.bg, color: item.color }}>
+                  <IconComp size={16} />
+                </div>
+                <div className="popover-item-content">
+                  <div className="popover-item-title">{item.title}</div>
+                  <div className="popover-item-desc">{item.desc}</div>
+                  <div className="popover-item-time">{item.time}</div>
+                </div>
+                {!item.read && <span className="unread-dot"></span>}
               </div>
-              <div className="n-content">
-                <strong>{n.title}</strong>
-                <p>{n.description}</p>
-                <span className="n-time">{n.time}</span>
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         <div className="popover-footer">
-          <button className="btn-text-blue" onClick={() => alert('All notifications marked as read')}>
-            Mark all as read
-          </button>
+          <button className="btn-popover-full" onClick={onClose}>View Notification Center</button>
         </div>
       </div>
     </div>

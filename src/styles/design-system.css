@@ -1920,3 +1920,348 @@ body {
     padding: 16px;
   }
 }
+
+
+/* Popovers & Backdrops */
+.popover-backdrop, .drawer-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 950;
+}
+
+.notifications-popover-card {
+  position: fixed;
+  top: 65px;
+  right: 80px;
+  width: 380px;
+  background: #ffffff;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-medium);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.popover-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: #f9fafb;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.popover-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+  font-size: 14px;
+}
+
+.popover-badge {
+  background: var(--primary-blue);
+  color: #fff;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 10px;
+}
+
+.btn-text-sm {
+  background: none;
+  border: none;
+  color: var(--primary-blue);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.popover-list {
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.popover-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-light);
+  position: relative;
+  transition: background 0.2s;
+}
+
+.popover-item.unread {
+  background: #f0f9ff;
+}
+
+.popover-item-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.popover-item-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.popover-item-desc {
+  font-size: 12px;
+  color: var(--text-medium);
+  margin-top: 2px;
+}
+
+.popover-item-time {
+  font-size: 10px;
+  color: var(--text-light);
+  margin-top: 4px;
+}
+
+.unread-dot {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 8px;
+  height: 8px;
+  background: var(--primary-blue);
+  border-radius: 50%;
+}
+
+.popover-footer {
+  padding: 10px 16px;
+  background: #f9fafb;
+  border-top: 1px solid var(--border-light);
+}
+
+.btn-popover-full {
+  width: 100%;
+  background: transparent;
+  border: none;
+  color: var(--primary-blue);
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+/* Side Drawers */
+.drawer-panel {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 420px;
+  background: #ffffff;
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+}
+
+.drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-light);
+}
+
+.drawer-title-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.drawer-close {
+  background: none;
+  border: none;
+  color: var(--text-light);
+  cursor: pointer;
+}
+
+.drawer-search {
+  position: relative;
+  margin: 16px 0;
+}
+
+.drawer-search input {
+  width: 100%;
+  padding: 10px 14px 10px 36px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-medium);
+  font-size: 13px;
+}
+
+.drawer-search .search-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-light);
+}
+
+.drawer-body {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.drawer-section-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-light);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.help-article-card {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  background: #f9fafb;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.help-article-card:hover {
+  border-color: var(--primary-blue);
+  background: #f0f9ff;
+}
+
+.article-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--primary-blue);
+}
+
+.article-category {
+  font-size: 11px;
+  color: var(--text-light);
+  margin-top: 2px;
+}
+
+.support-actions-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.support-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-medium);
+  background: #ffffff;
+  color: var(--text-dark);
+  text-decoration: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+/* AI Drawer */
+.ai-header {
+  border-bottom: 1px solid var(--border-light);
+}
+
+.ai-icon-badge {
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #1b6cb8, #3b82f6);
+  color: #fff;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ai-chat-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.chat-bubble-row {
+  display: flex;
+  gap: 10px;
+}
+
+.user-row {
+  flex-direction: row-reverse;
+}
+
+.chat-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ai-row .chat-avatar {
+  background: var(--primary-blue-light);
+  color: var(--primary-blue);
+}
+
+.chat-bubble {
+  max-width: 80%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.ai-row .chat-bubble {
+  background: #f3f4f6;
+  color: var(--text-dark);
+}
+
+.user-row .chat-bubble {
+  background: var(--primary-blue);
+  color: #ffffff;
+}
+
+.ai-chat-input-row {
+  display: flex;
+  gap: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-light);
+}
+
+.ai-chat-input-row input {
+  flex: 1;
+  padding: 10px 14px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-medium);
+  font-size: 13px;
+}
+
+.btn-ai-send {
+  background: var(--primary-blue);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}

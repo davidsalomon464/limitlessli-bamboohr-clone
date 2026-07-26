@@ -1,10 +1,18 @@
 import React, { useState } from 'react';
-import { Settings, X, Shield, Palette, Users, Globe, Database } from 'lucide-react';
+import { Settings, X, Building, ShieldCheck, Mail, Check } from 'lucide-react';
 
 export default function SettingsModal({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   const [activeTab, setActiveTab] = useState('company');
+  const [companyName, setCompanyName] = useState('CASM Limitlessli LLC');
+  const [domain, setDomain] = useState('limitlessly.com');
+
+  const handleSave = (e) => {
+    e.preventDefault();
+    alert('Limitlessli Admin Settings updated successfully!');
+    onClose();
+  };
 
   return (
     <div className="modal-overlay" onClick={onClose}>
@@ -12,63 +20,66 @@ export default function SettingsModal({ isOpen, onClose }) {
         <div className="modal-header">
           <div className="title-box">
             <Settings size={20} className="icon-blue" />
-            <h3>Portal Settings</h3>
+            <h3>Limitlessli Platform Settings</h3>
           </div>
           <button className="modal-close" onClick={onClose}><X size={18} /></button>
         </div>
 
-        <div className="settings-grid">
-          <div className="settings-nav">
-            <button className={`settings-tab ${activeTab === 'company' ? 'active' : ''}`} onClick={() => setActiveTab('company')}>
-              <Globe size={16} /> Company Profile
-            </button>
-            <button className={`settings-tab ${activeTab === 'branding' ? 'active' : ''}`} onClick={() => setActiveTab('branding')}>
-              <Palette size={16} /> Branding & Theme
-            </button>
-            <button className={`settings-tab ${activeTab === 'roles' ? 'active' : ''}`} onClick={() => setActiveTab('roles')}>
-              <Users size={16} /> User Roles & Access
-            </button>
-            <button className={`settings-tab ${activeTab === 'security' ? 'active' : ''}`} onClick={() => setActiveTab('security')}>
-              <Shield size={16} /> Security & SSO
-            </button>
-          </div>
-
-          <div className="settings-content">
-            {activeTab === 'company' && (
-              <div>
-                <h4 className="settings-title">Company Profile Settings</h4>
-                <div className="form-group">
-                  <label>Company Legal Name</label>
-                  <input type="text" defaultValue="CASM Limitlessli LLC" />
-                </div>
-                <div className="form-group">
-                  <label>Domain</label>
-                  <input type="text" defaultValue="limitlessli.bamboohr.com" readOnly />
-                </div>
-                <button className="btn-primary" onClick={() => { alert('Settings saved successfully!'); onClose(); }}>Save Changes</button>
-              </div>
-            )}
-
-            {activeTab === 'branding' && (
-              <div>
-                <h4 className="settings-title">Branding & Logo</h4>
-                <div className="form-group">
-                  <label>Primary Theme Color</label>
-                  <input type="color" defaultValue="#1b6cb8" />
-                </div>
-                <button className="btn-primary" onClick={() => { alert('Branding updated!'); onClose(); }}>Apply Branding</button>
-              </div>
-            )}
-
-            {(activeTab === 'roles' || activeTab === 'security') && (
-              <div>
-                <h4 className="settings-title">Security & SSO Authentication</h4>
-                <p className="subtext">SAML 2.0 Single Sign-On enabled via Google Workspace & Okta.</p>
-                <button className="btn-success" onClick={onClose}>Status: Active</button>
-              </div>
-            )}
-          </div>
+        <div className="view-mode-tabs" style={{ marginBottom: '20px' }}>
+          <button className={`view-tab ${activeTab === 'company' ? 'active' : ''}`} onClick={() => setActiveTab('company')}>Company Profile</button>
+          <button className={`view-tab ${activeTab === 'security' ? 'active' : ''}`} onClick={() => setActiveTab('security')}>SSO & 2FA Security</button>
+          <button className={`view-tab ${activeTab === 'email' ? 'active' : ''}`} onClick={() => setActiveTab('email')}>Email Branding</button>
         </div>
+
+        <form onSubmit={handleSave}>
+          {activeTab === 'company' && (
+            <div>
+              <div className="form-group">
+                <label>Company Legal Name</label>
+                <input type="text" value={companyName} onChange={e => setCompanyName(e.target.value)} required />
+              </div>
+
+              <div className="form-group">
+                <label>Default Work Email Domain</label>
+                <input type="text" value={domain} onChange={e => setDomain(e.target.value)} required />
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'security' && (
+            <div>
+              <div className="form-group">
+                <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <input type="checkbox" defaultChecked />
+                  <span>Enforce Two-Factor Authentication (2FA) for all Culture & Admin accounts</span>
+                </label>
+              </div>
+
+              <div className="form-group">
+                <label style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <input type="checkbox" defaultChecked />
+                  <span>Single Sign-On (SSO) Google Workspace Integration</span>
+                </label>
+              </div>
+            </div>
+          )}
+
+          {activeTab === 'email' && (
+            <div>
+              <div className="form-group">
+                <label>Welcome Email Sender Name</label>
+                <input type="text" defaultValue="Limitlessli Onboarding Team" />
+              </div>
+            </div>
+          )}
+
+          <div className="modal-actions">
+            <button type="button" className="btn-secondary" onClick={onClose}>Cancel</button>
+            <button type="submit" className="btn-primary">
+              <Check size={16} /> Save Settings
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
