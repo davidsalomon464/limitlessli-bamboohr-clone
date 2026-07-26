@@ -15,6 +15,7 @@ import {
 import { initialEmployees } from '../../data/mockData';
 import NewContractorWizard from '../modals/NewContractorWizard';
 import PowerEditModal from '../modals/PowerEditModal';
+import ContractorDetailDrawer from '../drawers/ContractorDetailDrawer';
 import { exportToCSV } from '../../utils/exportUtils';
 
 export default function PeopleView({ globalSearch }) {
@@ -22,6 +23,7 @@ export default function PeopleView({ globalSearch }) {
   const [employees, setEmployees] = useState(initialEmployees);
   const [showWizard, setShowWizard] = useState(false);
   const [showPowerEdit, setShowPowerEdit] = useState(false);
+  const [selectedContractor, setSelectedContractor] = useState(null);
 
   const filteredEmployees = employees.filter(emp => {
     if (!globalSearch) return true;
@@ -104,7 +106,7 @@ export default function PeopleView({ globalSearch }) {
         {/* Filters Bar */}
         <div className="table-filter-bar">
           <div className="filter-group">
-            <button className="btn-filter-dropdown">
+            <button className="btn-filter-dropdown" onClick={() => alert('Filter options: All Contractors, Active, Onboarding')}>
               <SlidersHorizontal size={14} />
               <span>All Contractors</span>
               <ChevronDown size={14} />
@@ -144,12 +146,12 @@ export default function PeopleView({ globalSearch }) {
               </thead>
               <tbody>
                 {filteredEmployees.map((emp) => (
-                  <tr key={emp.id}>
+                  <tr key={emp.id} style={{ cursor: 'pointer' }} onClick={() => setSelectedContractor(emp)}>
                     <td>
                       <img src={emp.photo} alt={emp.name} className="employee-row-photo" />
                     </td>
                     <td className="emp-name-cell">
-                      <a href={`#contractor-${emp.id}`}>{emp.name}</a>
+                      <a href={`#contractor-${emp.id}`} onClick={(e) => { e.preventDefault(); setSelectedContractor(emp); }}>{emp.name}</a>
                     </td>
                     <td>{emp.jobTitle}</td>
                     <td>{emp.department}</td>
@@ -166,7 +168,7 @@ export default function PeopleView({ globalSearch }) {
         {viewMode === 'directory' && (
           <div className="directory-grid">
             {filteredEmployees.map((emp) => (
-              <div key={emp.id} className="directory-card">
+              <div key={emp.id} className="directory-card" style={{ cursor: 'pointer' }} onClick={() => setSelectedContractor(emp)}>
                 <img src={emp.photo} alt={emp.name} className="dir-photo" />
                 <h3 className="dir-name">{emp.name}</h3>
                 <p className="dir-title">{emp.jobTitle}</p>
@@ -187,7 +189,7 @@ export default function PeopleView({ globalSearch }) {
               </div>
               <div className="org-children">
                 {filteredEmployees.slice(0, 4).map(emp => (
-                  <div key={emp.id} className="node-card child">
+                  <div key={emp.id} className="node-card child" style={{ cursor: 'pointer' }} onClick={() => setSelectedContractor(emp)}>
                     <strong>{emp.name}</strong>
                     <span>{emp.jobTitle}</span>
                   </div>
@@ -206,6 +208,12 @@ export default function PeopleView({ globalSearch }) {
       <PowerEditModal 
         isOpen={showPowerEdit} 
         onClose={() => setShowPowerEdit(false)} 
+      />
+
+      <ContractorDetailDrawer 
+        contractor={selectedContractor} 
+        isOpen={!!selectedContractor} 
+        onClose={() => setSelectedContractor(null)} 
       />
     </div>
   );
