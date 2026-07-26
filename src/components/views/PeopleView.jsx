@@ -9,11 +9,13 @@ import {
   Users, 
   ExternalLink,
   SlidersHorizontal,
-  Layers
+  Layers,
+  Download
 } from 'lucide-react';
 import { initialEmployees } from '../../data/mockData';
 import NewContractorWizard from '../modals/NewContractorWizard';
 import PowerEditModal from '../modals/PowerEditModal';
+import { exportToCSV } from '../../utils/exportUtils';
 
 export default function PeopleView({ globalSearch }) {
   const [viewMode, setViewMode] = useState('list');
@@ -32,14 +34,30 @@ export default function PeopleView({ globalSearch }) {
     );
   });
 
+  const handleExportCSV = () => {
+    const headers = [
+      { label: 'Contractor Name', key: 'name' },
+      { label: 'Job Title', key: 'jobTitle' },
+      { label: 'Client / Department', key: 'department' },
+      { label: 'Engagement Status', key: 'status' },
+      { label: 'Hire Date', key: 'hireDate' }
+    ];
+    exportToCSV('Limitlessli_Contractors_Directory', filteredEmployees, headers);
+  };
+
   return (
     <div className="people-view">
       <div className="people-header">
         <h1 className="page-title">People (Contractors)</h1>
-        <a href="#directory" className="quick-access-link">
-          <ExternalLink size={14} />
-          <span>Quick access to directory</span>
-        </a>
+        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+          <button className="btn-outline-sm" onClick={handleExportCSV} style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+            <Download size={14} /> Export Directory (CSV)
+          </button>
+          <a href="#directory" className="quick-access-link">
+            <ExternalLink size={14} />
+            <span>Quick access to directory</span>
+          </a>
+        </div>
       </div>
 
       {/* Top Action & View Switcher Row */}
@@ -104,8 +122,8 @@ export default function PeopleView({ globalSearch }) {
               <span>Active</span>
               <ChevronDown size={14} />
             </button>
-            <button className="icon-btn-border">
-              <MoreHorizontal size={16} />
+            <button className="icon-btn-border" onClick={handleExportCSV} title="Export CSV">
+              <Download size={16} />
             </button>
           </div>
         </div>

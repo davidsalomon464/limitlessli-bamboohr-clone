@@ -1617,3 +1617,29 @@ body {
   font-size: 13px;
   line-height: 1.5;
 }
+
+
+/* E-Signature Canvas Styling */
+.signature-canvas-container {
+  margin: 12px 0;
+}
+
+.sig-canvas {
+  width: 100%;
+  background: #ffffff;
+  border: 2px dashed #93c5fd;
+  border-radius: var(--radius-sm);
+  cursor: crosshair;
+}
+
+.typed-signature-preview {
+  font-family: 'Brush Script MT', 'Dancing Script', cursive, sans-serif;
+  font-size: 32px;
+  color: var(--primary-blue);
+  padding: 16px;
+  background: #f9fafb;
+  border: 1px solid var(--border-medium);
+  border-radius: var(--radius-sm);
+  margin-top: 8px;
+  text-align: center;
+}

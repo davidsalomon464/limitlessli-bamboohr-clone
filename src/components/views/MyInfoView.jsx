@@ -21,13 +21,17 @@ import {
   Heart,
   DollarSign,
   Laptop,
-  MessageSquare
+  MessageSquare,
+  FileCheck
 } from 'lucide-react';
 import { initialUserProfile, initialTrainingRecords } from '../../data/mockData';
+import ESignatureModal from '../modals/ESignatureModal';
 
 export default function MyInfoView({ onRecordTraining }) {
   const [activeSubTab, setActiveSubTab] = useState('training');
   const [trainingList, setTrainingList] = useState(initialTrainingRecords);
+  const [showESign, setShowESign] = useState(false);
+  const [selectedDocTitle, setSelectedDocTitle] = useState('');
 
   const subTabs = [
     { id: 'personal', label: 'Personal' },
@@ -40,6 +44,11 @@ export default function MyInfoView({ onRecordTraining }) {
     { id: 'benefits', label: 'Benefits' },
     { id: 'more', label: 'More', hasDropdown: true }
   ];
+
+  const handleOpenESign = (title) => {
+    setSelectedDocTitle(title);
+    setShowESign(true);
+  };
 
   return (
     <div className="my-info-view">
@@ -298,19 +307,38 @@ export default function MyInfoView({ onRecordTraining }) {
             </div>
           )}
 
-          {/* DOCUMENTS TAB */}
+          {/* DOCUMENTS TAB (WITH E-SIGNATURE INTEGRATION) */}
           {activeSubTab === 'documents' && (
             <div className="card tab-details-card">
               <div className="panel-header">
-                <h2 className="section-title">Signed Employee Documents</h2>
+                <h2 className="section-title">Signed & Pending Documents</h2>
                 <button className="btn-outline-sm" onClick={() => alert('Upload Document')}>Upload File</button>
               </div>
+
               <div className="training-item-row">
                 <div className="training-info">
                   <FileText size={18} className="icon-blue" />
-                  <strong>Non-Disclosure Agreement (NDA)_2026.pdf</strong>
+                  <div>
+                    <strong>Limitlessli Non-Disclosure Agreement (NDA)_2026.pdf</strong>
+                    <p className="subtext">Status: <span className="status-badge-green">Signed Jun 22, 2026</span></p>
+                  </div>
                 </div>
-                <span className="subtext">Signed Jun 22, 2026</span>
+                <button className="btn-outline-sm" onClick={() => handleOpenESign('Limitlessli Non-Disclosure Agreement (NDA)_2026.pdf')}>
+                  <FileCheck size={14} /> Re-Sign Document
+                </button>
+              </div>
+
+              <div className="training-item-row" style={{ marginTop: '12px' }}>
+                <div className="training-info">
+                  <FileText size={18} className="icon-blue" />
+                  <div>
+                    <strong>Contractor Engagement Agreement_2026.pdf</strong>
+                    <p className="subtext">Status: <span className="badge-past-due">Action Required</span></p>
+                  </div>
+                </div>
+                <button className="btn-primary" onClick={() => handleOpenESign('Contractor Engagement Agreement_2026.pdf')}>
+                  <FileCheck size={14} /> Sign Now (E-Sign)
+                </button>
               </div>
             </div>
           )}
@@ -352,6 +380,12 @@ export default function MyInfoView({ onRecordTraining }) {
           )}
         </div>
       </div>
+
+      <ESignatureModal 
+        isOpen={showESign} 
+        onClose={() => setShowESign(false)} 
+        documentTitle={selectedDocTitle}
+      />
     </div>
   );
 }
