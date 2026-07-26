@@ -12,7 +12,7 @@ import {
   Menu
 } from 'lucide-react';
 
-export default function Sidebar({ activeTab, setActiveTab }) {
+export default function Sidebar({ activeTab, setActiveTab, mobileOpen }) {
   const navItems = [
     { id: 'home', label: 'Home', icon: Home },
     { id: 'my-info', label: 'My Info', icon: User },
@@ -25,7 +25,7 @@ export default function Sidebar({ activeTab, setActiveTab }) {
   ];
 
   return (
-    <aside className="sidebar">
+    <aside className={`sidebar ${mobileOpen ? 'mobile-open' : ''}`}>
       <ul className="nav-list">
         {navItems.map((item) => {
           const IconComponent = item.icon;
@@ -49,11 +49,8 @@ export default function Sidebar({ activeTab, setActiveTab }) {
       </ul>
 
       <div className="sidebar-bottom">
-        <button className="sidebar-icon-btn" title="User Profile">
+        <button className="sidebar-icon-btn" title="User Profile" onClick={() => setActiveTab('my-info')}>
           <UserCircle size={22} />
-        </button>
-        <button className="sidebar-icon-btn" title="Menu">
-          <Menu size={22} />
         </button>
       </div>
     </aside>

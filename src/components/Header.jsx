@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Bell, HelpCircle, Settings, MessageSquarePlus, Eye, ShieldAlert, Clock } from 'lucide-react';
+import { Search, Bell, HelpCircle, Settings, MessageSquarePlus, Eye, ShieldAlert, Clock, Menu } from 'lucide-react';
 import NotificationsPopover from './popovers/NotificationsPopover';
 import HelpDrawer from './drawers/HelpDrawer';
 import AskAIDrawer from './drawers/AskAIDrawer';
@@ -7,7 +7,7 @@ import SettingsModal from './modals/SettingsModal';
 import LicenseAlertsModal from './modals/LicenseAlertsModal';
 import TimeDoctorSyncModal from './modals/TimeDoctorSyncModal';
 
-export default function Header({ searchFilter, setSearchFilter, viewAsUser, setViewAsUser }) {
+export default function Header({ searchFilter, setSearchFilter, viewAsUser, setViewAsUser, onToggleMobileSidebar }) {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
   const [showAskAI, setShowAskAI] = useState(false);
@@ -18,6 +18,10 @@ export default function Header({ searchFilter, setSearchFilter, viewAsUser, setV
   return (
     <header className="top-header">
       <div className="header-left">
+        <button className="icon-btn mobile-menu-btn" onClick={onToggleMobileSidebar} title="Toggle Navigation Menu">
+          <Menu size={20} />
+        </button>
+
         <a href="#home" className="brand-logo">
           {/* Limitlessli Swirling Logo SVG */}
           <svg width="34" height="34" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -43,14 +47,14 @@ export default function Header({ searchFilter, setSearchFilter, viewAsUser, setV
         </div>
 
         {/* Action Quick Badges */}
-        <button className="btn-outline-sm" onClick={() => setShowLicenseAlerts(true)} style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+        <button className="btn-outline-sm desktop-only-btn" onClick={() => setShowLicenseAlerts(true)} style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
           <ShieldAlert size={14} className="icon-red" />
           <span>RN Alerts (1)</span>
         </button>
 
-        <button className="btn-outline-sm" onClick={() => setShowTimeDoctor(true)} style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+        <button className="btn-outline-sm desktop-only-btn" onClick={() => setShowTimeDoctor(true)} style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
           <Clock size={14} className="icon-blue" />
-          <span>Time Doctor Sync</span>
+          <span>Time Doctor</span>
         </button>
       </div>
 

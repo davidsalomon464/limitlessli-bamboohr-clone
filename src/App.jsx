@@ -20,7 +20,8 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('home');
   const [activeModal, setActiveModal] = useState(null);
   const [searchFilter, setSearchFilter] = useState('');
-  const [viewAsUser, setViewAsUser] = useState(false); // Admin "View as User" Impersonation Switcher
+  const [viewAsUser, setViewAsUser] = useState(false);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   const renderActiveView = () => {
     switch (activeTab) {
@@ -57,8 +58,17 @@ export default function App() {
         setSearchFilter={setSearchFilter} 
         viewAsUser={viewAsUser}
         setViewAsUser={setViewAsUser}
+        onToggleMobileSidebar={() => setMobileSidebarOpen(!mobileSidebarOpen)}
       />
-      <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
+
+      <Sidebar 
+        activeTab={activeTab} 
+        setActiveTab={(tab) => {
+          setActiveTab(tab);
+          setMobileSidebarOpen(false);
+        }} 
+        mobileOpen={mobileSidebarOpen}
+      />
       
       <main className="main-content">
         {viewAsUser && (
