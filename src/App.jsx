@@ -18,8 +18,9 @@ import UploadFileModal from './components/modals/UploadFileModal';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('home');
-  const [activeModal, setActiveModal] = useState(null); // 'time-off' | 'record-training' | 'new-employee' | 'upload-file'
+  const [activeModal, setActiveModal] = useState(null);
   const [searchFilter, setSearchFilter] = useState('');
+  const [viewAsUser, setViewAsUser] = useState(false); // Admin "View as User" Impersonation Switcher
 
   const renderActiveView = () => {
     switch (activeTab) {
@@ -50,11 +51,21 @@ export default function App() {
   };
 
   return (
-    <div className="app-container">
-      <Header searchFilter={searchFilter} setSearchFilter={setSearchFilter} />
+    <div className={`app-container ${viewAsUser ? 'impersonation-active' : ''}`}>
+      <Header 
+        searchFilter={searchFilter} 
+        setSearchFilter={setSearchFilter} 
+        viewAsUser={viewAsUser}
+        setViewAsUser={setViewAsUser}
+      />
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
       
       <main className="main-content">
+        {viewAsUser && (
+          <div className="impersonation-banner">
+            👁️ <strong>Admin Mode: Viewing Portal as Contractor (David Salomon)</strong> - Certain admin settings & salary edit permissions are hidden from this view.
+          </div>
+        )}
         {renderActiveView()}
       </main>
 

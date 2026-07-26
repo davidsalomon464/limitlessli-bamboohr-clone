@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Search, Bell, HelpCircle, Settings, MessageSquarePlus } from 'lucide-react';
+import { Search, Bell, HelpCircle, Settings, MessageSquarePlus, Eye, UserCheck } from 'lucide-react';
 import NotificationsPopover from './popovers/NotificationsPopover';
 import HelpDrawer from './drawers/HelpDrawer';
 import AskAIDrawer from './drawers/AskAIDrawer';
 import SettingsModal from './modals/SettingsModal';
 
-export default function Header({ searchFilter, setSearchFilter }) {
+export default function Header({ searchFilter, setSearchFilter, viewAsUser, setViewAsUser }) {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
   const [showAskAI, setShowAskAI] = useState(false);
@@ -25,13 +25,25 @@ export default function Header({ searchFilter, setSearchFilter }) {
             <circle cx="50" cy="50" r="8" fill="#1b6cb8" />
           </svg>
         </a>
+
+        {/* Admin "View as User" Impersonation Switcher */}
+        <div className="impersonation-bar">
+          <button 
+            className={`btn-impersonate ${viewAsUser ? 'active-impersonate' : ''}`}
+            onClick={() => setViewAsUser(!viewAsUser)}
+            title="Toggle Admin View vs Contractor View"
+          >
+            <Eye size={14} />
+            <span>{viewAsUser ? 'Viewing as: Contractor (David Salomon)' : 'Admin View (Full Access)'}</span>
+          </button>
+        </div>
       </div>
 
       <div className="header-search">
         <Search className="search-icon" size={16} />
         <input 
           type="text" 
-          placeholder="Search employees, files, reports..." 
+          placeholder="Search contractors, files, reports..." 
           value={searchFilter}
           onChange={(e) => setSearchFilter(e.target.value)}
         />
