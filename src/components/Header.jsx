@@ -1,15 +1,19 @@
 import React, { useState } from 'react';
-import { Search, Bell, HelpCircle, Settings, MessageSquarePlus, Eye, UserCheck } from 'lucide-react';
+import { Search, Bell, HelpCircle, Settings, MessageSquarePlus, Eye, ShieldAlert, Clock } from 'lucide-react';
 import NotificationsPopover from './popovers/NotificationsPopover';
 import HelpDrawer from './drawers/HelpDrawer';
 import AskAIDrawer from './drawers/AskAIDrawer';
 import SettingsModal from './modals/SettingsModal';
+import LicenseAlertsModal from './modals/LicenseAlertsModal';
+import TimeDoctorSyncModal from './modals/TimeDoctorSyncModal';
 
 export default function Header({ searchFilter, setSearchFilter, viewAsUser, setViewAsUser }) {
   const [showNotifications, setShowNotifications] = useState(false);
   const [showHelp, setShowHelp] = useState(false);
   const [showAskAI, setShowAskAI] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+  const [showLicenseAlerts, setShowLicenseAlerts] = useState(false);
+  const [showTimeDoctor, setShowTimeDoctor] = useState(false);
 
   return (
     <header className="top-header">
@@ -37,6 +41,17 @@ export default function Header({ searchFilter, setSearchFilter, viewAsUser, setV
             <span>{viewAsUser ? 'Viewing as: Contractor (David Salomon)' : 'Admin View (Full Access)'}</span>
           </button>
         </div>
+
+        {/* Action Quick Badges */}
+        <button className="btn-outline-sm" onClick={() => setShowLicenseAlerts(true)} style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+          <ShieldAlert size={14} className="icon-red" />
+          <span>RN Alerts (1)</span>
+        </button>
+
+        <button className="btn-outline-sm" onClick={() => setShowTimeDoctor(true)} style={{ display: 'flex', gap: '4px', alignItems: 'center' }}>
+          <Clock size={14} className="icon-blue" />
+          <span>Time Doctor Sync</span>
+        </button>
       </div>
 
       <div className="header-search">
@@ -103,6 +118,16 @@ export default function Header({ searchFilter, setSearchFilter, viewAsUser, setV
       <SettingsModal 
         isOpen={showSettings} 
         onClose={() => setShowSettings(false)} 
+      />
+
+      <LicenseAlertsModal 
+        isOpen={showLicenseAlerts} 
+        onClose={() => setShowLicenseAlerts(false)} 
+      />
+
+      <TimeDoctorSyncModal 
+        isOpen={showTimeDoctor} 
+        onClose={() => setShowTimeDoctor(false)} 
       />
     </header>
   );
