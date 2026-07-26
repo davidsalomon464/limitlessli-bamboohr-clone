@@ -4,8 +4,7 @@ import {
   Search, 
   ChevronDown, 
   ExternalLink, 
-  Code, 
-  Tumbleweed,
+  Code,
   UserCheck,
   Briefcase
 } from 'lucide-react';
@@ -36,7 +35,8 @@ export default function HiringView() {
             onClick={() => setActiveTab('candidates')}
           >
             Candidates
-          </button>          <button 
+          </button>
+          <button 
             className={`hiring-tab ${activeTab === 'talent-pools' ? 'active' : ''}`}
             onClick={() => setActiveTab('talent-pools')}
           >
