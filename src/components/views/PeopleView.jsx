@@ -8,13 +8,18 @@ import {
   MoreHorizontal, 
   Users, 
   ExternalLink,
-  SlidersHorizontal
+  SlidersHorizontal,
+  Layers
 } from 'lucide-react';
 import { initialEmployees } from '../../data/mockData';
+import NewContractorWizard from '../modals/NewContractorWizard';
+import PowerEditModal from '../modals/PowerEditModal';
 
-export default function PeopleView({ onNewEmployee, globalSearch }) {
+export default function PeopleView({ globalSearch }) {
   const [viewMode, setViewMode] = useState('list');
   const [employees, setEmployees] = useState(initialEmployees);
+  const [showWizard, setShowWizard] = useState(false);
+  const [showPowerEdit, setShowPowerEdit] = useState(false);
 
   const filteredEmployees = employees.filter(emp => {
     if (!globalSearch) return true;
@@ -30,19 +35,26 @@ export default function PeopleView({ onNewEmployee, globalSearch }) {
   return (
     <div className="people-view">
       <div className="people-header">
-        <h1 className="page-title">People</h1>
+        <h1 className="page-title">People (Contractors)</h1>
         <a href="#directory" className="quick-access-link">
           <ExternalLink size={14} />
-          <span>Quick access to the directory</span>
+          <span>Quick access to directory</span>
         </a>
       </div>
 
       {/* Top Action & View Switcher Row */}
       <div className="people-controls-row">
-        <button className="btn-outline" onClick={onNewEmployee}>
-          <Plus size={16} />
-          <span>New Employee</span>
-        </button>
+        <div style={{ display: 'flex', gap: '10px' }}>
+          <button className="btn-outline" onClick={() => setShowWizard(true)}>
+            <Plus size={16} />
+            <span>New Contractor</span>
+          </button>
+
+          <button className="btn-secondary" onClick={() => setShowPowerEdit(true)}>
+            <Layers size={16} />
+            <span>Power Edit Contractors</span>
+          </button>
+        </div>
 
         <div className="view-mode-tabs">
           <button 
@@ -76,13 +88,13 @@ export default function PeopleView({ onNewEmployee, globalSearch }) {
           <div className="filter-group">
             <button className="btn-filter-dropdown">
               <SlidersHorizontal size={14} />
-              <span>All Employees</span>
+              <span>All Contractors</span>
               <ChevronDown size={14} />
             </button>
 
             <div className="employee-count-badge">
               <Users size={14} />
-              <span>403</span>
+              <span>403 Contractors</span>
             </div>
           </div>
 
@@ -104,11 +116,11 @@ export default function PeopleView({ onNewEmployee, globalSearch }) {
             <table className="people-table">
               <thead>
                 <tr>
-                  <th>Employee Photo</th>
+                  <th>Contractor Photo</th>
                   <th>Last Name, First Name</th>
                   <th>Job Title</th>
-                  <th>Department</th>
-                  <th>Employment Status</th>
+                  <th>Client (Department)</th>
+                  <th>Engagement Status</th>
                   <th>Hire Date</th>
                 </tr>
               </thead>
@@ -119,7 +131,7 @@ export default function PeopleView({ onNewEmployee, globalSearch }) {
                       <img src={emp.photo} alt={emp.name} className="employee-row-photo" />
                     </td>
                     <td className="emp-name-cell">
-                      <a href={`#employee-${emp.id}`}>{emp.name}</a>
+                      <a href={`#contractor-${emp.id}`}>{emp.name}</a>
                     </td>
                     <td>{emp.jobTitle}</td>
                     <td>{emp.department}</td>
@@ -167,6 +179,16 @@ export default function PeopleView({ onNewEmployee, globalSearch }) {
           </div>
         )}
       </div>
+
+      <NewContractorWizard 
+        isOpen={showWizard} 
+        onClose={() => setShowWizard(false)} 
+      />
+
+      <PowerEditModal 
+        isOpen={showPowerEdit} 
+        onClose={() => setShowPowerEdit(false)} 
+      />
     </div>
   );
 }
