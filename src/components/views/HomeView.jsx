@@ -15,10 +15,19 @@ import {
 } from 'lucide-react';
 import { initialAnnouncements } from '../../data/mockData';
 import AccrualCalcModal from '../modals/AccrualCalcModal';
+import ClairPayModal from '../modals/ClairPayModal';
+import NewAnnouncementModal from '../modals/NewAnnouncementModal';
 
 export default function HomeView({ onRequestTimeOff }) {
   const [showPromo, setShowPromo] = useState(true);
   const [showCalc, setShowCalc] = useState(false);
+  const [showClair, setShowClair] = useState(false);
+  const [showNewAnnouncement, setShowNewAnnouncement] = useState(false);
+  const [announcementsList, setAnnouncementsList] = useState(initialAnnouncements);
+
+  const handleAddAnnouncement = (newMsg) => {
+    setAnnouncementsList([newMsg, ...announcementsList]);
+  };
 
   return (
     <div className="home-view">
@@ -37,13 +46,13 @@ export default function HomeView({ onRequestTimeOff }) {
         </div>
 
         <div className="profile-banner-right">
-          <button className="btn-outline" onClick={() => alert('Quick Actions Menu launched!')}>
+          <button className="btn-outline" onClick={() => setShowNewAnnouncement(true)}>
             <Plus size={14} />
-            <span>New...</span>
+            <span>New Announcement</span>
           </button>
           <button className="btn-outline" onClick={() => alert('Dashboard Widget Customization Mode Enabled!')}>
             <Edit3 size={14} />
-            <span>Edit</span>
+            <span>Edit Widgets</span>
           </button>
         </div>
       </div>
@@ -56,7 +65,7 @@ export default function HomeView({ onRequestTimeOff }) {
           <div className="card">
             <div className="card-title">
               <Calendar size={18} className="icon-blue" />
-              <span>Time Off</span>
+              <span>Time Off (NSD)</span>
             </div>
 
             <div className="timeoff-counters">
@@ -82,7 +91,7 @@ export default function HomeView({ onRequestTimeOff }) {
             <div className="timeoff-actions">
               <button className="btn-outline btn-full" onClick={onRequestTimeOff}>
                 <Calendar size={14} />
-                <span>Request Time Off</span>
+                <span>Request Time Off (NSD)</span>
               </button>
               <button className="btn-calc" title="Calculator" onClick={() => setShowCalc(true)}>
                 <Calculator size={16} />
@@ -91,7 +100,7 @@ export default function HomeView({ onRequestTimeOff }) {
           </div>
 
           {/* Clair On-Demand Pay Card */}
-          <div className="card clair-card" style={{ cursor: 'pointer' }} onClick={() => alert('Opening Clair On-Demand Pay Portal')}>
+          <div className="card clair-card" style={{ cursor: 'pointer' }} onClick={() => setShowClair(true)}>
             <div className="card-title">
               <CreditCard size={18} className="icon-blue" />
               <span>Clair On-Demand Pay</span>
@@ -134,7 +143,7 @@ export default function HomeView({ onRequestTimeOff }) {
               </div>
               
               <div className="headcount-summary">
-                <div className="total-label">Total Employees</div>
+                <div className="total-label">Total Employees / Contractors</div>
                 <div className="total-num">399</div>
                 <div className="growth-rate">
                   <span className="positive">+62</span> (18.4%)
@@ -148,13 +157,18 @@ export default function HomeView({ onRequestTimeOff }) {
         {/* Right Column: What's happening at Limitlessli */}
         <div className="grid-col-right">
           <div className="card feed-card">
-            <div className="card-title">
-              <Megaphone size={18} className="icon-blue" />
-              <span>What's happening at Limitlessli</span>
+            <div className="card-title" style={{ justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                <Megaphone size={18} className="icon-blue" />
+                <span>What's happening at Limitlessli</span>
+              </div>
+              <button className="btn-text-blue" onClick={() => setShowNewAnnouncement(true)} style={{ fontSize: '12px' }}>
+                + Post Announcement
+              </button>
             </div>
 
             <div className="feed-list">
-              {initialAnnouncements.map((item) => (
+              {announcementsList.map((item) => (
                 <div className="feed-item" key={item.id} style={{ cursor: 'pointer' }} onClick={() => alert(`Opening announcement: "${item.title}"`)}>
                   {item.type === 'task' ? (
                     <div className="feed-icon-box task-box">
@@ -214,6 +228,17 @@ export default function HomeView({ onRequestTimeOff }) {
       <AccrualCalcModal 
         isOpen={showCalc} 
         onClose={() => setShowCalc(false)} 
+      />
+
+      <ClairPayModal 
+        isOpen={showClair} 
+        onClose={() => setShowClair(false)} 
+      />
+
+      <NewAnnouncementModal 
+        isOpen={showNewAnnouncement} 
+        onClose={() => setShowNewAnnouncement(false)} 
+        onAddAnnouncement={handleAddAnnouncement}
       />
     </div>
   );
