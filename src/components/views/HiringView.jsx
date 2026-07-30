@@ -9,13 +9,22 @@ import {
   Briefcase
 } from 'lucide-react';
 import EmbedCodeModal from '../modals/EmbedCodeModal';
-import CreateJobOpeningModal from '../modals/CreateJobOpeningModal';
+import CreateJobOpeningView from './CreateJobOpeningView';
 
 export default function HiringView() {
   const [activeTab, setActiveTab] = useState('job-openings');
   const [showEmbed, setShowEmbed] = useState(false);
-  const [showCreateJob, setShowCreateJob] = useState(false);
+  const [isCreatingJob, setIsCreatingJob] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+
+  if (isCreatingJob) {
+    return (
+      <CreateJobOpeningView 
+        onCancel={() => setIsCreatingJob(false)}
+        onSave={() => setIsCreatingJob(false)}
+      />
+    );
+  }
 
   return (
     <div className="hiring-view">
@@ -58,7 +67,7 @@ export default function HiringView() {
       {/* Action Controls Bar */}
       <div className="hiring-controls-bar">
         <div className="controls-left">
-          <button className="btn-primary" onClick={() => setShowCreateJob(true)}>
+          <button className="btn-primary" onClick={() => setIsCreatingJob(true)}>
             <Plus size={16} />
             <span>New Job Opening</span>
           </button>
@@ -141,11 +150,6 @@ export default function HiringView() {
       <EmbedCodeModal 
         isOpen={showEmbed} 
         onClose={() => setShowEmbed(false)} 
-      />
-
-      <CreateJobOpeningModal 
-        isOpen={showCreateJob} 
-        onClose={() => setShowCreateJob(false)} 
       />
     </div>
   );
