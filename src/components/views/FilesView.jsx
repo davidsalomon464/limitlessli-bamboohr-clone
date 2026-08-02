@@ -1,121 +1,107 @@
 import React, { useState } from 'react';
 import { 
-  Upload, 
-  FolderPlus, 
   Folder, 
+  FolderPlus, 
+  Upload, 
   FileText, 
-  ChevronDown, 
-  Download, 
-  Trash2, 
-  CheckSquare 
+  ChevronRight, 
+  SlidersHorizontal,
+  Download,
+  Trash2,
+  FileCheck
 } from 'lucide-react';
 import { fileCategories } from '../../data/mockData';
+import NewFolderModal from '../modals/NewFolderModal';
 
 export default function FilesView({ onUploadFile }) {
-  const [activeFolder, setActiveFolder] = useState('All Files');
-  const [selectedFolder, setSelectedFolder] = useState(fileCategories[0].name);
+  const [folders, setFolders] = useState(
+    fileCategories.map((c, idx) => ({ id: idx + 1, name: c.name, count: c.count }))
+  );
+  const [selectedFolder, setSelectedFolder] = useState({ id: 1, name: "Appraisal & Promotion Letter Templates", count: 18 });
+  const [files, setFiles] = useState([
+    { id: 1, name: 'Standard Contractor NDA Template_2026.pdf', size: '245 KB', uploadedDate: 'Jun 22, 2026' },
+    { id: 2, name: 'CASM Engagement Agreement Master.docx', size: '180 KB', uploadedDate: 'Jul 10, 2026' }
+  ]);
+  const [showNewFolderModal, setShowNewFolderModal] = useState(false);
+
+  const handleFolderCreated = (name) => {
+    const newF = { id: Date.now(), name: name, count: 0 };
+    setFolders([...folders, newF]);
+    setSelectedFolder(newF);
+  };
 
   return (
     <div className="files-view">
       <div className="files-top-header">
-        <h1 className="page-title">Files</h1>
+        <h1 className="page-title">Company Files & Vault</h1>
         <div className="files-actions">
-          <button className="btn-outline" onClick={onUploadFile}>
+          <button className="btn-outline" onClick={() => setShowNewFolderModal(true)}>
+            <FolderPlus size={16} />
+            <span>New Folder</span>
+          </button>
+          <button className="btn-primary" onClick={onUploadFile}>
             <Upload size={16} />
             <span>Upload File</span>
-          </button>
-          <button className="icon-btn-border" title="New Folder">
-            <FolderPlus size={16} />
           </button>
         </div>
       </div>
 
       <div className="files-layout-grid">
-        {/* Left Folders Sidebar */}
-        <div className="files-sidebar card">
-          <div className="files-nav-tabs">
-            <button 
-              className={`files-tab ${activeFolder === 'All Files' ? 'active' : ''}`}
-              onClick={() => setActiveFolder('All Files')}
-            >
-              <FileText size={16} />
-              <span>All Files</span>
-            </button>
-            <button 
-              className={`files-tab ${activeFolder === 'Signature Templates' ? 'active' : ''}`}
-              onClick={() => setActiveFolder('Signature Templates')}
-            >
-              <FileText size={16} />
-              <span>Signature Templates</span>
-            </button>
-          </div>
-
+        {/* Left Folder Tree Panel */}
+        <div className="card folder-tree-card">
+          <h3 className="section-title">Categories ({folders.length})</h3>
           <div className="folder-tree-list">
-            {fileCategories.map((folder, index) => (
-              <button 
-                key={index}
-                className={`folder-tree-item ${selectedFolder === folder.name ? 'selected' : ''}`}
-                onClick={() => setSelectedFolder(folder.name)}
+            {folders.map((folder) => (
+              <button
+                key={folder.id}
+                className={`folder-tree-item ${selectedFolder.id === folder.id ? 'selected' : ''}`}
+                onClick={() => setSelectedFolder(folder)}
               >
-                <Folder size={16} className="icon-folder" />
-                <span className="folder-name">{folder.name}</span>
+                <Folder size={16} className="icon-blue" />
+                <span>{folder.name}</span>
                 <span className="folder-count">({folder.count})</span>
               </button>
             ))}
           </div>
         </div>
 
-        {/* Right Files Container */}
-        <div className="files-main-card card">
+        {/* Right Documents Grid */}
+        <div className="card files-content-card">
           <div className="files-card-header">
-            <div className="select-all-box">
-              <input type="checkbox" id="selectAll" />
-              <label htmlFor="selectAll">Select All Files</label>
-            </div>
-
+            <h2 className="current-folder-title">{selectedFolder.name}</h2>
             <div className="files-toolbar">
               <div className="sort-box">
-                <span className="sort-label">Sort by</span>
+                <span className="subtext">Sort:</span>
                 <select className="select-sm">
-                  <option>Name: A - Z</option>
-                  <option>Name: Z - A</option>
+                  <option>Name (A-Z)</option>
                   <option>Date Modified</option>
                 </select>
               </div>
-
-              <button className="icon-btn-border" title="Download">
-                <Download size={16} />
-              </button>
-              <button className="icon-btn-border" title="Delete">
-                <Trash2 size={16} />
-              </button>
             </div>
           </div>
 
-          {/* Files List Content */}
-          <div className="files-list-content">
-            <h3 className="current-folder-title">{selectedFolder}</h3>
-            
-            <div className="mock-files-grid">
-              <div className="file-item-card">
-                <FileText size={32} className="icon-file-pdf" />
-                <div className="file-info">
-                  <strong>Standard_Template_v1.pdf</strong>
-                  <span>Updated Jun 15, 2026 • 245 KB</span>
+          <div className="mock-files-grid" style={{ marginTop: '16px' }}>
+            {files.map((file) => (
+              <div key={file.id} className="file-item-card">
+                <FileText size={24} className="icon-blue" />
+                <div className="file-info" style={{ flex: 1 }}>
+                  <strong>{file.name}</strong>
+                  <span className="subtext">{file.size} • {file.uploadedDate}</span>
                 </div>
+                <button className="icon-btn-sm" title="Download" onClick={() => alert(`Downloading file "${file.name}"...`)}>
+                  <Download size={14} />
+                </button>
               </div>
-
-              <div className="file-item-card">
-                <FileText size={32} className="icon-file-doc" />
-                <div className="file-info">
-                  <strong>Compliance_Guidelines.docx</strong>
-                  <span>Updated May 28, 2026 • 1.2 MB</span>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>
+
+      <NewFolderModal 
+        isOpen={showNewFolderModal} 
+        onClose={() => setShowNewFolderModal(false)} 
+        onFolderCreated={handleFolderCreated}
+      />
     </div>
   );
 }

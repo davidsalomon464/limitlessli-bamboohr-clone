@@ -22,16 +22,23 @@ import {
   DollarSign,
   Laptop,
   MessageSquare,
-  FileCheck
+  FileCheck,
+  UserX
 } from 'lucide-react';
 import { initialUserProfile, initialTrainingRecords } from '../../data/mockData';
 import ESignatureModal from '../modals/ESignatureModal';
+import EmergencyContactsModal from '../modals/EmergencyContactsModal';
+import AssetManagementModal from '../modals/AssetManagementModal';
+import OffboardingModal from '../modals/OffboardingModal';
 
 export default function MyInfoView({ onRecordTraining }) {
   const [activeSubTab, setActiveSubTab] = useState('training');
   const [trainingList, setTrainingList] = useState(initialTrainingRecords);
   const [showESign, setShowESign] = useState(false);
   const [selectedDocTitle, setSelectedDocTitle] = useState('');
+  const [showEmergencyModal, setShowEmergencyModal] = useState(false);
+  const [showAssetModal, setShowAssetModal] = useState(false);
+  const [showOffboardModal, setShowOffboardModal] = useState(false);
 
   const subTabs = [
     { id: 'personal', label: 'Personal' },
@@ -68,6 +75,10 @@ export default function MyInfoView({ onRecordTraining }) {
             <button className="btn-hero-action" onClick={() => alert('Change Profile Request Form launched!')}>
               <span>Request a Change</span>
               <ChevronDown size={14} />
+            </button>
+            <button className="btn-hero-action" style={{ background: '#fef2f2', color: '#dc2626' }} onClick={() => setShowOffboardModal(true)}>
+              <UserX size={14} />
+              <span>Offboard</span>
             </button>
             <button className="btn-hero-more" onClick={() => alert('Profile options: Export PDF, Print Profile, Edit Avatar')}>
               <MoreHorizontal size={18} />
@@ -265,7 +276,7 @@ export default function MyInfoView({ onRecordTraining }) {
             <div className="card tab-details-card">
               <div className="panel-header">
                 <h2 className="section-title">Emergency Contacts</h2>
-                <button className="btn-primary" onClick={() => alert('Add Emergency Contact Modal')}>+ Add Contact</button>
+                <button className="btn-primary" onClick={() => setShowEmergencyModal(true)}>+ Add Contact</button>
               </div>
               <div className="training-item-row">
                 <div>
@@ -307,7 +318,7 @@ export default function MyInfoView({ onRecordTraining }) {
             </div>
           )}
 
-          {/* DOCUMENTS TAB (WITH E-SIGNATURE INTEGRATION) */}
+          {/* DOCUMENTS TAB */}
           {activeSubTab === 'documents' && (
             <div className="card tab-details-card">
               <div className="panel-header">
@@ -368,13 +379,19 @@ export default function MyInfoView({ onRecordTraining }) {
           {/* MORE TAB */}
           {activeSubTab === 'more' && (
             <div className="card tab-details-card">
-              <h2 className="section-title">Company Assets Tracked</h2>
+              <div className="panel-header">
+                <h2 className="section-title">Company Assets Tracked</h2>
+                <button className="btn-primary" onClick={() => setShowAssetModal(true)}>+ Issue Asset</button>
+              </div>
               <div className="training-item-row">
                 <div className="training-info">
                   <Laptop size={18} className="icon-blue" />
-                  <strong>MacBook Pro 16" (M3 Max) - Asset #LM-9921</strong>
+                  <div>
+                    <strong>MacBook Pro 16" (M3 Max)</strong>
+                    <div className="subtext">Asset Tag: LM-9921 • Issued Jun 22, 2026</div>
+                  </div>
                 </div>
-                <span className="subtext">Issued Jun 22, 2026</span>
+                <span className="status-badge-green">In Use</span>
               </div>
             </div>
           )}
@@ -385,6 +402,21 @@ export default function MyInfoView({ onRecordTraining }) {
         isOpen={showESign} 
         onClose={() => setShowESign(false)} 
         documentTitle={selectedDocTitle}
+      />
+
+      <EmergencyContactsModal 
+        isOpen={showEmergencyModal} 
+        onClose={() => setShowEmergencyModal(false)} 
+      />
+
+      <AssetManagementModal 
+        isOpen={showAssetModal} 
+        onClose={() => setShowAssetModal(false)} 
+      />
+
+      <OffboardingModal 
+        isOpen={showOffboardModal} 
+        onClose={() => setShowOffboardModal(false)} 
       />
     </div>
   );
