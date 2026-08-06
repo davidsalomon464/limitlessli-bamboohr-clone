@@ -1,7 +1,7 @@
 import React from 'react';
 import { Globe, Users, ShieldCheck, FileCheck, CheckCircle2 } from 'lucide-react';
 
-export default function GlobalEmploymentView() {
+export default function GlobalEmploymentView({ onOpenTaxCompliance }) {
   const regions = [
     { country: 'Israel', count: 42, flag: '🇮🇱', status: 'Compliant' },
     { country: 'United States', count: 185, flag: '🇺🇸', status: 'Compliant' },
@@ -11,9 +11,14 @@ export default function GlobalEmploymentView() {
 
   return (
     <div className="global-employment-view">
-      <h1 className="page-title">Global Employment</h1>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h1 className="page-title">Global Employment</h1>
+        <button className="btn-primary" onClick={onOpenTaxCompliance} style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+          <ShieldCheck size={16} /> Tax & Compliance Center
+        </button>
+      </div>
 
-      <div className="global-stats-row">
+      <div className="global-stats-row" style={{ marginTop: '16px' }}>
         <div className="card stat-card">
           <Globe size={24} className="icon-blue" />
           <div className="stat-content">
@@ -69,7 +74,7 @@ export default function GlobalEmploymentView() {
                   </span>
                 </td>
                 <td>
-                  <button className="btn-outline-sm">Manage Agreements</button>
+                  <button className="btn-outline-sm" onClick={onOpenTaxCompliance}>Manage Agreements</button>
                 </td>
               </tr>
             ))}

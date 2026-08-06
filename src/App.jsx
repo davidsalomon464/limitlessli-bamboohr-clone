@@ -27,6 +27,8 @@ import ClientPortalModal from './components/modals/ClientPortalModal';
 import SkillsMatrixModal from './components/modals/SkillsMatrixModal';
 import PayStubPdfModal from './components/modals/PayStubPdfModal';
 import CustomSurveyBuilderModal from './components/modals/CustomSurveyBuilderModal';
+import AttendanceReconciliationModal from './components/modals/AttendanceReconciliationModal';
+import TaxComplianceModal from './components/modals/TaxComplianceModal';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('home');
@@ -94,7 +96,7 @@ export default function App() {
           />
         );
       case 'global-employment':
-        return <GlobalEmploymentView />;
+        return <GlobalEmploymentView onOpenTaxCompliance={() => setActiveModal('tax-compliance')} />;
       default:
         return <HomeView onRequestTimeOff={() => setActiveModal('time-off')} />;
     }
@@ -206,6 +208,16 @@ export default function App() {
 
       <CustomSurveyBuilderModal
         isOpen={activeModal === 'custom-survey'}
+        onClose={() => setActiveModal(null)}
+      />
+
+      <AttendanceReconciliationModal
+        isOpen={activeModal === 'attendance-reconciliation'}
+        onClose={() => setActiveModal(null)}
+      />
+
+      <TaxComplianceModal
+        isOpen={activeModal === 'tax-compliance'}
         onClose={() => setActiveModal(null)}
       />
     </div>
