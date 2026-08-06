@@ -8,8 +8,7 @@ import {
   FileText, 
   DollarSign, 
   Globe,
-  UserCircle,
-  Menu
+  UserCircle
 } from 'lucide-react';
 
 export default function Sidebar({ activeTab, setActiveTab, mobileOpen }) {
@@ -56,3 +55,4 @@ export default function Sidebar({ activeTab, setActiveTab, mobileOpen }) {
     </aside>
   );
 }
+
