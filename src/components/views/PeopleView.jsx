@@ -5,30 +5,42 @@ import {
   Grid, 
   Network, 
   ChevronDown, 
-  MoreHorizontal, 
   Users, 
   ExternalLink,
   SlidersHorizontal,
   Layers,
-  Download
+  Download,
+  FileSpreadsheet,
+  Grid3X3,
+  Activity,
+  Building2
 } from 'lucide-react';
 import { initialEmployees } from '../../data/mockData';
 import NewContractorWizard from '../modals/NewContractorWizard';
 import PowerEditModal from '../modals/PowerEditModal';
 import ContractorDetailDrawer from '../drawers/ContractorDetailDrawer';
+import ClientFilterBar from '../ClientFilterBar';
 import { exportToCSV } from '../../utils/exportUtils';
 
-export default function PeopleView({ globalSearch }) {
+export default function PeopleView({ 
+  globalSearch, 
+  onBulkImport, 
+  onOpenSkillsMatrix, 
+  onOpenAttendanceHeatmap, 
+  onOpenClientPortal 
+}) {
   const [viewMode, setViewMode] = useState('list');
   const [employees, setEmployees] = useState(initialEmployees);
   const [showWizard, setShowWizard] = useState(false);
   const [showPowerEdit, setShowPowerEdit] = useState(false);
   const [selectedContractor, setSelectedContractor] = useState(null);
+  const [selectedClient, setSelectedClient] = useState('all');
 
   const filteredEmployees = employees.filter(emp => {
-    if (!globalSearch) return true;
+    const matchesClient = selectedClient === 'all' || emp.department === selectedClient;
+    if (!globalSearch) return matchesClient;
     const query = globalSearch.toLowerCase();
-    return (
+    return matchesClient && (
       emp.name.toLowerCase().includes(query) ||
       emp.jobTitle.toLowerCase().includes(query) ||
       emp.department.toLowerCase().includes(query) ||
@@ -51,16 +63,27 @@ export default function PeopleView({ globalSearch }) {
     <div className="people-view">
       <div className="people-header">
         <h1 className="page-title">People (Contractors)</h1>
-        <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-          <button className="btn-outline-sm" onClick={handleExportCSV} style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
-            <Download size={14} /> Export Directory (CSV)
+        <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+          <button className="btn-outline-sm" onClick={onOpenClientPortal} style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+            <Building2 size={14} className="icon-blue" /> Client Accounts
           </button>
-          <a href="#directory" className="quick-access-link">
-            <ExternalLink size={14} />
-            <span>Quick access to directory</span>
-          </a>
+          <button className="btn-outline-sm" onClick={onOpenSkillsMatrix} style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+            <Grid3X3 size={14} className="icon-blue" /> Skills Matrix
+          </button>
+          <button className="btn-outline-sm" onClick={onOpenAttendanceHeatmap} style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+            <Activity size={14} className="icon-blue" /> Attendance Heatmap
+          </button>
+          <button className="btn-outline-sm" onClick={handleExportCSV} style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+            <Download size={14} /> Export Directory
+          </button>
         </div>
       </div>
+
+      {/* Client Filter Bar */}
+      <ClientFilterBar 
+        selectedClient={selectedClient} 
+        onSelectClient={setSelectedClient} 
+      />
 
       {/* Top Action & View Switcher Row */}
       <div className="people-controls-row">
@@ -68,6 +91,11 @@ export default function PeopleView({ globalSearch }) {
           <button className="btn-outline" onClick={() => setShowWizard(true)}>
             <Plus size={16} />
             <span>New Contractor</span>
+          </button>
+
+          <button className="btn-outline" onClick={onBulkImport} style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+            <FileSpreadsheet size={16} className="icon-blue" />
+            <span>Bulk Import CSV</span>
           </button>
 
           <button className="btn-secondary" onClick={() => setShowPowerEdit(true)}>
@@ -114,7 +142,7 @@ export default function PeopleView({ globalSearch }) {
 
             <div className="employee-count-badge">
               <Users size={14} />
-              <span>403 Contractors</span>
+              <span>{filteredEmployees.length} Contractors</span>
             </div>
           </div>
 

@@ -13,7 +13,7 @@ import {
 import { fileCategories } from '../../data/mockData';
 import NewFolderModal from '../modals/NewFolderModal';
 
-export default function FilesView({ onUploadFile }) {
+export default function FilesView({ onUploadFile, onOpenContractGenerator }) {
   const [folders, setFolders] = useState(
     fileCategories.map((c, idx) => ({ id: idx + 1, name: c.name, count: c.count }))
   );
@@ -35,6 +35,10 @@ export default function FilesView({ onUploadFile }) {
       <div className="files-top-header">
         <h1 className="page-title">Company Files & Vault</h1>
         <div className="files-actions">
+          <button className="btn-outline" onClick={onOpenContractGenerator} style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+            <FileText size={16} className="icon-blue" />
+            <span>Generate Contract PDF</span>
+          </button>
           <button className="btn-outline" onClick={() => setShowNewFolderModal(true)}>
             <FolderPlus size={16} />
             <span>New Folder</span>

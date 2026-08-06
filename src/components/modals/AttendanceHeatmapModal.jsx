@@ -114,11 +114,11 @@ export default function AttendanceHeatmapModal({ isOpen, onClose }) {
             <div className="subtext">Attendance Score</div>
           </div>
           <div className="card" style={{ padding: '12px', textAlign: 'center', background: '#eff6ff' }}>
-            <div style={{ fontSize: '20px', fontWeight 700, color: '#1d4ed8' }}>1,952 hrs</div>
+            <div style={{ fontSize: '20px', fontWeight: 700, color: '#1d4ed8' }}>1,952 hrs</div>
             <div className="subtext">Total Worked Hours</div>
           </div>
           <div className="card" style={{ padding: '12px', textAlign: 'center', background: '#fef3c7' }}>
-            <div style={{ fontSize: '20px', fontWeight 700, color: '#b45309' }}>2 days</div>
+            <div style={{ fontSize: '20px', fontWeight: 700, color: '#b45309' }}>2 days</div>
             <div className="subtext">Total Unexcused Absences</div>
           </div>
         </div>

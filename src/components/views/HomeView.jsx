@@ -11,14 +11,16 @@ import {
   ChevronRight, 
   X, 
   Award,
-  CreditCard
+  CreditCard,
+  Users,
+  CheckCircle2
 } from 'lucide-react';
 import { initialAnnouncements } from '../../data/mockData';
 import AccrualCalcModal from '../modals/AccrualCalcModal';
 import ClairPayModal from '../modals/ClairPayModal';
 import NewAnnouncementModal from '../modals/NewAnnouncementModal';
 
-export default function HomeView({ onRequestTimeOff }) {
+export default function HomeView({ onRequestTimeOff, onOpenNSDCalendar, onOpenNSDQueue }) {
   const [showPromo, setShowPromo] = useState(true);
   const [showCalc, setShowCalc] = useState(false);
   const [showClair, setShowClair] = useState(false);
@@ -46,6 +48,10 @@ export default function HomeView({ onRequestTimeOff }) {
         </div>
 
         <div className="profile-banner-right">
+          <button className="btn-outline" onClick={onOpenNSDQueue} style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+            <CheckCircle2 size={14} className="icon-green" />
+            <span>NSD Approval Queue (5)</span>
+          </button>
           <button className="btn-outline" onClick={() => setShowNewAnnouncement(true)}>
             <Plus size={14} />
             <span>New Announcement</span>
@@ -63,9 +69,14 @@ export default function HomeView({ onRequestTimeOff }) {
         <div className="grid-col-left">
           {/* Time Off Widget */}
           <div className="card">
-            <div className="card-title">
-              <Calendar size={18} className="icon-blue" />
-              <span>Time Off (NSD)</span>
+            <div className="card-title" style={{ justifyContent: 'space-between' }}>
+              <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+                <Calendar size={18} className="icon-blue" />
+                <span>Time Off (NSD)</span>
+              </div>
+              <button className="btn-text-blue" onClick={onOpenNSDCalendar} style={{ fontSize: '12px', cursor: 'pointer' }}>
+                📅 View Calendar Grid
+              </button>
             </div>
 
             <div className="timeoff-counters">

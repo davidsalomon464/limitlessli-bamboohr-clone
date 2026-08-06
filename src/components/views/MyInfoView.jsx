@@ -23,7 +23,10 @@ import {
   Laptop,
   MessageSquare,
   FileCheck,
-  UserX
+  UserX,
+  Clock,
+  Target,
+  ListChecks
 } from 'lucide-react';
 import { initialUserProfile, initialTrainingRecords } from '../../data/mockData';
 import ESignatureModal from '../modals/ESignatureModal';
@@ -31,7 +34,7 @@ import EmergencyContactsModal from '../modals/EmergencyContactsModal';
 import AssetManagementModal from '../modals/AssetManagementModal';
 import OffboardingModal from '../modals/OffboardingModal';
 
-export default function MyInfoView({ onRecordTraining }) {
+export default function MyInfoView({ onRecordTraining, onOpenTimeline, onOpenChecklist, onOpenPerformance }) {
   const [activeSubTab, setActiveSubTab] = useState('training');
   const [trainingList, setTrainingList] = useState(initialTrainingRecords);
   const [showESign, setShowESign] = useState(false);
@@ -72,16 +75,21 @@ export default function MyInfoView({ onRecordTraining }) {
           </div>
 
           <div className="hero-actions">
-            <button className="btn-hero-action" onClick={() => alert('Change Profile Request Form launched!')}>
-              <span>Request a Change</span>
-              <ChevronDown size={14} />
+            <button className="btn-hero-action" onClick={onOpenTimeline} style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+              <Clock size={14} />
+              <span>Timeline</span>
+            </button>
+            <button className="btn-hero-action" onClick={onOpenChecklist} style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+              <ListChecks size={14} />
+              <span>Onboarding (75%)</span>
+            </button>
+            <button className="btn-hero-action" onClick={onOpenPerformance} style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+              <Target size={14} />
+              <span>OKRs & Reviews</span>
             </button>
             <button className="btn-hero-action" style={{ background: '#fef2f2', color: '#dc2626' }} onClick={() => setShowOffboardModal(true)}>
               <UserX size={14} />
               <span>Offboard</span>
-            </button>
-            <button className="btn-hero-more" onClick={() => alert('Profile options: Export PDF, Print Profile, Edit Avatar')}>
-              <MoreHorizontal size={18} />
             </button>
           </div>
         </div>

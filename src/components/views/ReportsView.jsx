@@ -9,11 +9,12 @@ import {
   Plus, 
   ChevronRight, 
   SlidersHorizontal,
-  Download
+  Download,
+  Building2
 } from 'lucide-react';
 import CustomReportBuilderModal from '../modals/CustomReportBuilderModal';
 
-export default function ReportsView() {
+export default function ReportsView({ onOpenClientPortal }) {
   const [activeMenu, setActiveMenu] = useState('favorites');
   const [showBuilderModal, setShowBuilderModal] = useState(false);
 
@@ -29,6 +30,10 @@ export default function ReportsView() {
       <div className="reports-top-header">
         <h1 className="page-title">Reports & Analytics</h1>
         <div className="reports-actions">
+          <button className="btn-outline" onClick={onOpenClientPortal} style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+            <Building2 size={16} className="icon-blue" />
+            <span>Client Accounts Report</span>
+          </button>
           <button className="btn-primary" onClick={() => setShowBuilderModal(true)}>
             <Plus size={16} />
             <span>New Custom Report</span>

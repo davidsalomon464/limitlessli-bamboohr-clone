@@ -15,6 +15,16 @@ import TimeOffModal from './components/modals/TimeOffModal';
 import RecordTrainingModal from './components/modals/RecordTrainingModal';
 import NewEmployeeModal from './components/modals/NewEmployeeModal';
 import UploadFileModal from './components/modals/UploadFileModal';
+import AttendanceHeatmapModal from './components/modals/AttendanceHeatmapModal';
+import BulkImportContractorsModal from './components/modals/BulkImportContractorsModal';
+import NSDCalendarModal from './components/modals/NSDCalendarModal';
+import NSDApprovalQueueModal from './components/modals/NSDApprovalQueueModal';
+import OnboardingChecklistModal from './components/modals/OnboardingChecklistModal';
+import ContractorTimelineModal from './components/modals/ContractorTimelineModal';
+import PerformanceReviewsModal from './components/modals/PerformanceReviewsModal';
+import ContractPdfGeneratorModal from './components/modals/ContractPdfGeneratorModal';
+import ClientPortalModal from './components/modals/ClientPortalModal';
+import SkillsMatrixModal from './components/modals/SkillsMatrixModal';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('home');
@@ -26,24 +36,51 @@ export default function App() {
   const renderActiveView = () => {
     switch (activeTab) {
       case 'home':
-        return <HomeView onRequestTimeOff={() => setActiveModal('time-off')} />;
+        return (
+          <HomeView 
+            onRequestTimeOff={() => setActiveModal('time-off')} 
+            onOpenNSDCalendar={() => setActiveModal('nsd-calendar')}
+            onOpenNSDQueue={() => setActiveModal('nsd-queue')}
+          />
+        );
       case 'my-info':
-        return <MyInfoView onRecordTraining={() => setActiveModal('record-training')} />;
+        return (
+          <MyInfoView 
+            onRecordTraining={() => setActiveModal('record-training')} 
+            onOpenTimeline={() => setActiveModal('timeline')}
+            onOpenChecklist={() => setActiveModal('onboarding-checklist')}
+            onOpenPerformance={() => setActiveModal('performance-reviews')}
+          />
+        );
       case 'people':
         return (
           <PeopleView 
             onNewEmployee={() => setActiveModal('new-employee')} 
+            onBulkImport={() => setActiveModal('bulk-import')}
+            onOpenSkillsMatrix={() => setActiveModal('skills-matrix')}
+            onOpenAttendanceHeatmap={() => setActiveModal('attendance-heatmap')}
+            onOpenClientPortal={() => setActiveModal('client-portal')}
             globalSearch={searchFilter}
           />
         );
       case 'hiring':
-        return <HiringView onNewJobOpening={() => alert('New Job Opening creation wizard launched!')} />;
+        return (
+          <HiringView 
+            onNewJobOpening={() => alert('New Job Opening creation wizard launched!')} 
+            onOpenContractGenerator={() => setActiveModal('contract-generator')}
+          />
+        );
       case 'reports':
-        return <ReportsView />;
+        return <ReportsView onOpenClientPortal={() => setActiveModal('client-portal')} />;
       case 'files':
-        return <FilesView onUploadFile={() => setActiveModal('upload-file')} />;
+        return (
+          <FilesView 
+            onUploadFile={() => setActiveModal('upload-file')} 
+            onOpenContractGenerator={() => setActiveModal('contract-generator')}
+          />
+        );
       case 'compensation':
-        return <CompensationView />;
+        return <CompensationView onOpenContractGenerator={() => setActiveModal('contract-generator')} />;
       case 'global-employment':
         return <GlobalEmploymentView />;
       default:
@@ -79,7 +116,7 @@ export default function App() {
         {renderActiveView()}
       </main>
 
-      {/* Modals */}
+      {/* Modals Suite */}
       <TimeOffModal 
         isOpen={activeModal === 'time-off'} 
         onClose={() => setActiveModal(null)} 
@@ -98,6 +135,56 @@ export default function App() {
       <UploadFileModal 
         isOpen={activeModal === 'upload-file'} 
         onClose={() => setActiveModal(null)} 
+      />
+
+      <AttendanceHeatmapModal
+        isOpen={activeModal === 'attendance-heatmap'}
+        onClose={() => setActiveModal(null)}
+      />
+
+      <BulkImportContractorsModal
+        isOpen={activeModal === 'bulk-import'}
+        onClose={() => setActiveModal(null)}
+      />
+
+      <NSDCalendarModal
+        isOpen={activeModal === 'nsd-calendar'}
+        onClose={() => setActiveModal(null)}
+      />
+
+      <NSDApprovalQueueModal
+        isOpen={activeModal === 'nsd-queue'}
+        onClose={() => setActiveModal(null)}
+      />
+
+      <OnboardingChecklistModal
+        isOpen={activeModal === 'onboarding-checklist'}
+        onClose={() => setActiveModal(null)}
+      />
+
+      <ContractorTimelineModal
+        isOpen={activeModal === 'timeline'}
+        onClose={() => setActiveModal(null)}
+      />
+
+      <PerformanceReviewsModal
+        isOpen={activeModal === 'performance-reviews'}
+        onClose={() => setActiveModal(null)}
+      />
+
+      <ContractPdfGeneratorModal
+        isOpen={activeModal === 'contract-generator'}
+        onClose={() => setActiveModal(null)}
+      />
+
+      <ClientPortalModal
+        isOpen={activeModal === 'client-portal'}
+        onClose={() => setActiveModal(null)}
+      />
+
+      <SkillsMatrixModal
+        isOpen={activeModal === 'skills-matrix'}
+        onClose={() => setActiveModal(null)}
       />
     </div>
   );

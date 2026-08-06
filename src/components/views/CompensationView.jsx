@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
-import { DollarSign, Award, Plus, Upload, Layers } from 'lucide-react';
+import { DollarSign, Award, Plus, Upload, Layers, FileText } from 'lucide-react';
 import PayGradesModal from '../modals/PayGradesModal';
 
-export default function CompensationView() {
+export default function CompensationView({ onOpenContractGenerator }) {
   const [activeTab, setActiveTab] = useState('pay-grades');
   const [showAddPayBand, setShowAddPayBand] = useState(false);
 
   return (
     <div className="compensation-view">
-      <h1 className="page-title">Compensation</h1>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h1 className="page-title">Compensation</h1>
+        <button className="btn-outline-sm" onClick={onOpenContractGenerator} style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+          <FileText size={14} className="icon-blue" /> Generate Contract PDF
+        </button>
+      </div>
 
       {/* Sub Tabs */}
       <div className="comp-tabs-header">

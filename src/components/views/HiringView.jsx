@@ -6,12 +6,13 @@ import {
   ExternalLink, 
   Code,
   UserCheck,
-  Briefcase
+  Briefcase,
+  FileText
 } from 'lucide-react';
 import EmbedCodeModal from '../modals/EmbedCodeModal';
 import CreateJobOpeningView from './CreateJobOpeningView';
 
-export default function HiringView() {
+export default function HiringView({ onOpenContractGenerator }) {
   const [activeTab, setActiveTab] = useState('job-openings');
   const [showEmbed, setShowEmbed] = useState(false);
   const [isCreatingJob, setIsCreatingJob] = useState(false);
@@ -28,7 +29,12 @@ export default function HiringView() {
 
   return (
     <div className="hiring-view">
-      <h1 className="page-title">Hiring (ATS)</h1>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h1 className="page-title">Hiring (ATS)</h1>
+        <button className="btn-outline-sm" onClick={onOpenContractGenerator} style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+          <FileText size={14} className="icon-blue" /> Generate Contract PDF
+        </button>
+      </div>
 
       {/* Tabs Row */}
       <div className="hiring-tabs-header">
