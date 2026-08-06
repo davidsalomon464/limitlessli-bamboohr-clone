@@ -26,6 +26,7 @@ import ContractPdfGeneratorModal from './components/modals/ContractPdfGeneratorM
 import ClientPortalModal from './components/modals/ClientPortalModal';
 import SkillsMatrixModal from './components/modals/SkillsMatrixModal';
 import PayStubPdfModal from './components/modals/PayStubPdfModal';
+import CustomSurveyBuilderModal from './components/modals/CustomSurveyBuilderModal';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('home');
@@ -72,7 +73,12 @@ export default function App() {
           />
         );
       case 'reports':
-        return <ReportsView onOpenClientPortal={() => setActiveModal('client-portal')} />;
+        return (
+          <ReportsView 
+            onOpenClientPortal={() => setActiveModal('client-portal')} 
+            onOpenCustomSurvey={() => setActiveModal('custom-survey')}
+          />
+        );
       case 'files':
         return (
           <FilesView 
@@ -195,6 +201,11 @@ export default function App() {
 
       <PayStubPdfModal
         isOpen={activeModal === 'pay-stub'}
+        onClose={() => setActiveModal(null)}
+      />
+
+      <CustomSurveyBuilderModal
+        isOpen={activeModal === 'custom-survey'}
         onClose={() => setActiveModal(null)}
       />
     </div>

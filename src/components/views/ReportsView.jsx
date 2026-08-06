@@ -10,11 +10,12 @@ import {
   ChevronRight, 
   SlidersHorizontal,
   Download,
-  Building2
+  Building2,
+  HelpCircle
 } from 'lucide-react';
 import CustomReportBuilderModal from '../modals/CustomReportBuilderModal';
 
-export default function ReportsView({ onOpenClientPortal }) {
+export default function ReportsView({ onOpenClientPortal, onOpenCustomSurvey }) {
   const [activeMenu, setActiveMenu] = useState('favorites');
   const [showBuilderModal, setShowBuilderModal] = useState(false);
 
@@ -30,6 +31,10 @@ export default function ReportsView({ onOpenClientPortal }) {
       <div className="reports-top-header">
         <h1 className="page-title">Reports & Analytics</h1>
         <div className="reports-actions">
+          <button className="btn-outline" onClick={onOpenCustomSurvey} style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+            <HelpCircle size={16} className="icon-blue" />
+            <span>Survey & Intake Builder</span>
+          </button>
           <button className="btn-outline" onClick={onOpenClientPortal} style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
             <Building2 size={16} className="icon-blue" />
             <span>Client Accounts Report</span>
