@@ -29,6 +29,7 @@ import PayStubPdfModal from './components/modals/PayStubPdfModal';
 import CustomSurveyBuilderModal from './components/modals/CustomSurveyBuilderModal';
 import AttendanceReconciliationModal from './components/modals/AttendanceReconciliationModal';
 import TaxComplianceModal from './components/modals/TaxComplianceModal';
+import SalaryBenchmarkingModal from './components/modals/SalaryBenchmarkingModal';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('home');
@@ -93,6 +94,7 @@ export default function App() {
           <CompensationView 
             onOpenContractGenerator={() => setActiveModal('contract-generator')}
             onOpenPayStub={() => setActiveModal('pay-stub')}
+            onOpenSalaryBenchmarking={() => setActiveModal('salary-benchmarking')}
           />
         );
       case 'global-employment':
@@ -218,6 +220,11 @@ export default function App() {
 
       <TaxComplianceModal
         isOpen={activeModal === 'tax-compliance'}
+        onClose={() => setActiveModal(null)}
+      />
+
+      <SalaryBenchmarkingModal
+        isOpen={activeModal === 'salary-benchmarking'}
         onClose={() => setActiveModal(null)}
       />
     </div>

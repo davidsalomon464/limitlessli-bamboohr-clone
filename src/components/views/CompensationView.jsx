@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { DollarSign, Award, Plus, Upload, Layers, FileText, CreditCard } from 'lucide-react';
+import { DollarSign, Award, Plus, Upload, Layers, FileText, CreditCard, BarChart2 } from 'lucide-react';
 import PayGradesModal from '../modals/PayGradesModal';
 
-export default function CompensationView({ onOpenContractGenerator, onOpenPayStub }) {
+export default function CompensationView({ onOpenContractGenerator, onOpenPayStub, onOpenSalaryBenchmarking }) {
   const [activeTab, setActiveTab] = useState('pay-grades');
   const [showAddPayBand, setShowAddPayBand] = useState(false);
 
@@ -11,6 +11,9 @@ export default function CompensationView({ onOpenContractGenerator, onOpenPayStu
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <h1 className="page-title">Compensation</h1>
         <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
+          <button className="btn-outline-sm" onClick={onOpenSalaryBenchmarking} style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+            <BarChart2 size={14} className="icon-blue" /> Salary Benchmarking
+          </button>
           <button className="btn-outline-sm" onClick={onOpenPayStub} style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
             <CreditCard size={14} className="icon-blue" /> Generate Pay Stub PDF
           </button>
@@ -49,9 +52,9 @@ export default function CompensationView({ onOpenContractGenerator, onOpenPayStu
               <Plus size={16} />
               <span>Add Pay Band</span>
             </button>
-            <button className="btn-outline" onClick={() => alert('Pay Grades CSV Importer launched!')}>
-              <Upload size={16} />
-              <span>Import Pay Bands (CSV)</span>
+            <button className="btn-outline" onClick={onOpenSalaryBenchmarking} style={{ display: 'flex', gap: '6px', alignItems: 'center' }}>
+              <BarChart2 size={16} />
+              <span>View Market Benchmarks</span>
             </button>
           </div>
         </div>
