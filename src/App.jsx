@@ -25,6 +25,7 @@ import PerformanceReviewsModal from './components/modals/PerformanceReviewsModal
 import ContractPdfGeneratorModal from './components/modals/ContractPdfGeneratorModal';
 import ClientPortalModal from './components/modals/ClientPortalModal';
 import SkillsMatrixModal from './components/modals/SkillsMatrixModal';
+import PayStubPdfModal from './components/modals/PayStubPdfModal';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('home');
@@ -80,7 +81,12 @@ export default function App() {
           />
         );
       case 'compensation':
-        return <CompensationView onOpenContractGenerator={() => setActiveModal('contract-generator')} />;
+        return (
+          <CompensationView 
+            onOpenContractGenerator={() => setActiveModal('contract-generator')}
+            onOpenPayStub={() => setActiveModal('pay-stub')}
+          />
+        );
       case 'global-employment':
         return <GlobalEmploymentView />;
       default:
@@ -184,6 +190,11 @@ export default function App() {
 
       <SkillsMatrixModal
         isOpen={activeModal === 'skills-matrix'}
+        onClose={() => setActiveModal(null)}
+      />
+
+      <PayStubPdfModal
+        isOpen={activeModal === 'pay-stub'}
         onClose={() => setActiveModal(null)}
       />
     </div>
